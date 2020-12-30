@@ -59,6 +59,7 @@ pub mod pk;
 pub mod rng;
 pub mod self_test;
 pub mod ssl;
+pub mod timing;
 pub mod x509;
 
 #[cfg(feature = "pkcs12")]
@@ -105,6 +106,7 @@ pub extern "C" fn mbedtls_internal_aes_decrypt(_ctx: *mut mbedtls_sys::types::ra
 #[cfg(test)]
 #[path = "../tests/support/mod.rs"]
 mod test_support;
+
 #[cfg(test)]
 mod mbedtls {
     pub use super::*;

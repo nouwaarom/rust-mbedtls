@@ -20,6 +20,7 @@ use core::result::Result as StdResult;
 use crate::private::UnsafeFrom;
 use crate::ssl::config::{AuthMode, Config, Version};
 use crate::x509::{Crl, LinkedCertificate, VerifyError};
+use crate::timing::TimingDelayContext;
 
 pub trait IoCallback {
     unsafe extern "C" fn call_recv(
@@ -100,6 +101,12 @@ impl<'config> Context<'config> {
         unsafe { ssl_setup(&mut ret.inner, config.into()) }
             .into_result()
             .map(|_| ret)
+    }
+
+    pub fn set_timer_callback(&mut self, timing_delay_context: &mut TimingDelayContext) {
+        unsafe {
+            ssl_set_timer_cb(&mut self.inner, timing_delay_context as *mut _ as *mut c_void, Some(timing_set_delay), Some(timing_get_delay));
+        }
     }
 
     pub fn establish<'c, F: IoCallback>(
