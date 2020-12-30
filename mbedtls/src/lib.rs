@@ -51,6 +51,7 @@ extern crate block_modes;
 pub mod bignum;
 mod error;
 pub use crate::error::{Error, Result};
+pub mod debugging;
 pub mod cipher;
 pub mod ecp;
 pub mod hash;
